@@ -1,0 +1,50 @@
+{% extends 'shortener/base.html' %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+<script>
+    var clipboard = new Clipboard('.copy-text');
+</script>
+<div class="row">
+    <div class="col-6 mx-auto text-center">
+        <p class="display-4">Ваша ссылка:</p>
+        <p class="form-control form-control-lg text-center" id="url-input">{{ host }}/{{ url_obj.short_code }}</p>
+        <a href="#" data-clipboard-target="#url-input" class="copy-text btn btn-success">Копировать</a>
+        <a href="/" class="btn btn-primary">На главную</a>
+    </div>
+</div>
+<p class="text-center display-4">Информация</p>
+<table class="table table-striped">
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Изначальная ссылка</strong></p>
+        </td>
+        <td class="text-left align-middle" style="word-wrap: break-word;">
+            <p><a href="{{ url_obj.long_url }}">Длина ссылки - {{ url_obj.long_url|length }}</a></p>
+            <p><a href="http://{{ host }}/{{ url_obj.short_code }}" class="btn btn-success btn-sm">Перейти</a></p>
+        </td>
+    </tr>
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Количество переходов</strong></p>
+        </td>
+        <td class="text-left align-middle">
+            <p>{{ url_obj.clicks }}</p>
+        </td>
+    </tr>
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Дата создания</strong></p>
+        </td>
+        <td class="text-left align-middle">
+            <p>{{ url_obj.created }}</p>
+        </td>
+    </tr>
+</table>
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="text-center">
+            <a href="../delete/{{ url_obj.short_code }}" class="btn btn-danger btn-sm">Удалить эту ссылку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

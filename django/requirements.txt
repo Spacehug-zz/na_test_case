@@ -1,0 +1,5 @@
+django==2.0
+psycopg2==2.7.3.2
+whitenoise==4.0b4
+brotlipy==0.7.0
+django-admin-rangefilter==0.3.0

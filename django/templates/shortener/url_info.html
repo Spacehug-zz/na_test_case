@@ -1,0 +1,46 @@
+{% extends 'shortener/base.html' %}
+{% block content %}
+<p class="text-center display-4">Информация о корткой ссылке</p>
+<table class="table table-striped">
+    <tr>
+        <td class="text-right align-middle">
+            <p><strong>Короткая ссылка</strong></p>
+        </td>
+        <td class="text-left align-middle">
+            <p><a href="http://{{ host }}/{{ url_obj.short_code }}">{{ host }}/{{ url_obj.short_code }}</a></p>
+        </td>
+    </tr>
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Изначальная ссылка</strong></p>
+        </td>
+        <td class="text-left align-middle" style="word-wrap: break-word;">
+            <p><a href="{{ url_obj.long_url }}">Длина ссылки - {{ url_obj.long_url|length }}</a></p>
+            <p><a href="http://{{ host }}/{{ url_obj.short_code }}" class="btn btn-success btn-sm">Перейти</a></p>
+        </td>
+    </tr>
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Количество переходов</strong></p>
+        </td>
+        <td class="text-left align-middle">
+            <p>{{ url_obj.clicks }}</p>
+        </td>
+    </tr>
+    <tr >
+        <td class="text-right align-middle">
+            <p><strong>Дата создания</strong></p>
+        </td>
+        <td class="text-left align-middle">
+            <p>{{ url_obj.created }}</p>
+        </td>
+    </tr>
+</table>
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="text-center">
+            <a href="../delete/{{ url_obj.short_code }}" class="btn btn-danger btn-sm">Удалить эту ссылку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

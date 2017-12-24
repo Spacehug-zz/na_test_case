@@ -1,0 +1,49 @@
+{% extends 'shortener/base.html' %}
+{% block content %}
+<form method="POST" class="post-form" novalidate>
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+        <small class="text-center form-text text-muted">Мы сократим вашу длинную сылку так, чтобы вам было легко ею поделиться</small>
+    </div>
+    <button type="submit" class="save btn btn-success btn-lg btn-block">Короче!</button>
+</form>
+<br><br><br>
+{% if urls %}
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="text-center">
+            <p>Спискок популярных ссылок</p>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr class="d-flex">
+        <th class="col-2 text-center align-middle">Короткий код</th>
+        <th class="col-4 text-center align-middle">Исходная ссылка</th>
+        <th class="col-1 text-center align-middle">Кликов</th>
+        <th class="col-3 text-center align-middle">Время создания</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for url in urls %}
+    <tr class="d-flex">
+        <td class="col-2 text-center align-middle"><a href="../info/{{ url.short_code }}">{{ url.short_code }}</td>
+        <td class="col-4 text-center align-middle"><a href="../{{ url.short_code }}" class="btn btn-primary btn-block btn-sm">Перейти: {{ url.long_url|slice:":26" }}</a></td>
+        <td class="col-1 text-center align-middle">{{ url.clicks }}</td>
+        <td class="col-3 text-center align-middle">{{ url.created }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="text-center">
+            <p class="display-4">Ссылок пока нет</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

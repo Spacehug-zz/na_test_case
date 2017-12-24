@@ -1,0 +1,77 @@
+{% extends 'shortener/base.html' %}
+{% block content %}
+{% if is_paginated %}
+<ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Предыдущая страница</span>
+        </a>
+    </li>
+    {% else %}
+    <li class="disabled page-item">
+        <a class="page-link" href="#" aria-label="Previous" tabindex="-1">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Предыдущая страница</span>
+        </a>
+    </li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+    {% if page_obj.number == i %}
+    <li class="page-item active"><a href="?page={{ i }}" class="page-link">{{ i }} <span class="sr-only">(Текущая)</span></a></li>
+    {% else %}
+    <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Следующая страница</span>
+        </a>
+    </li>
+    {% else %}
+    <li class="disabled page-item">
+        <a class="page-link" href="#" aria-label="Next" tabindex="-1">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Следующая страница</span>
+        </a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}
+{% if urls %}
+<table class="table table-striped">
+    <thead>
+    <tr class="d-flex">
+        <th class="col-2 text-center align-middle">Короткий код</th>
+        <th class="col-4 text-center align-middle">Исходная ссылка</th>
+        <th class="col-1 text-center align-middle">Кликов</th>
+        <th class="col-3 text-center align-middle">Время создания</th>
+        <th class="col-2 text-center align-middle">Удаление</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for url in urls %}
+    <tr class="d-flex">
+        <td class="col-2 text-center align-middle"><a href="../info/{{ url.short_code }}">{{ url.short_code }}</td>
+        <td class="col-4 text-center align-middle"><a href="../{{ url.short_code }}" class="btn btn-success btn-block btn-sm">Перейти: {{ url.long_url|slice:":26" }}</a></td>
+        <td class="col-1 text-center align-middle">{{ url.clicks }}</td>
+        <td class="col-3 text-center align-middle">{{ url.created }}</td>
+        <td class="col-2 text-center align-middle"><a href="../delete/{{ url.short_code }}" class="btn btn-danger btn-block btn-sm">Удалить</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="row">
+    <div class="col-6 mx-auto">
+        <div class="text-center">
+            <p class="display-4">Ссылок пока нет</p>
+            <small class="text-center form-text text-muted">Но их можно <a href="/">добавить</a> ;)</small>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
