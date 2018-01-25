@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import F
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from urllib.parse import urlparse
@@ -114,7 +115,7 @@ def redirect_to_url(request, short_code):
     if is_valid(short_code):
         try:
             obj = ShortURL.objects.get(short_code=short_code)
-            obj.clicks += 1
+            obj.clicks = F('clicks') +1
             obj.save()
             return redirect(obj.long_url, permanent=True)
         except ShortURL.DoesNotExist:
